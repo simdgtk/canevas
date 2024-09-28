@@ -1,0 +1,392 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+@import '../utils/utils.scss';
+
+.profile {
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  font-size: 1.2rem;
+  position: relative;
+
+  .name-age {
+    display: flex;
+    align-items: last baseline;
+    justify-content: space-between;
+    gap: 1rem;
+
+    h1 {
+      font-size: 2.5rem;
+      line-height: 1.1;
+      margin-top: 2.5rem;
+      text-transform: capitalize;
+    }
+
+    p {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+  }
+
+  .pseudo {
+    color: $color-gray-darker;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    word-break: break-all;
+  }
+
+  .description-links {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .description {
+    margin-top: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: fit-content;
+    gap: 1.5rem;
+
+    @media screen and (max-width: $bp-tablet) {
+      margin: 1rem auto;
+    }
+
+    .edit-icon {
+      display: none;
+    }
+
+    &.edit-mode {
+      position: relative;
+
+      li {
+        opacity: 0.2;
+        pointer-events: none;
+        user-select: none;
+        position: relative;
+      }
+
+      .edit-icon {
+        display: block;
+        position: absolute;
+        opacity: 1;
+        z-index: 999;
+        cursor: pointer;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 20px 50%;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  .container {
+    position: relative;
+    box-sizing: border-box;
+    min-height: 89vh;
+    margin: 5vh;
+    border: $border;
+    overflow: hidden;
+    padding: 4.5rem 0 2rem 4.5rem;
+    display: flex;
+    gap: 7.5rem;
+
+    @media screen and (max-width: $bp-tablet) {
+      flex-direction: column;
+      padding: 2rem;
+    }
+
+    @media screen and (max-width: $bp-phone) {}
+
+    .back {
+      position: fixed;
+      top: 1rem;
+      left: 2rem;
+    }
+
+    #edit-button {
+      position: fixed;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      top: 1.5rem;
+      right: 1.5rem;
+      gap: 10px;
+      border: $border;
+      background: $color-background;
+      font-family: Raleway, sans-serif;
+      cursor: pointer;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .main-infos {
+    display: flex;
+    flex-direction: column;
+    max-width: 25%;
+
+    @media screen and (max-width: $bp-desktop) {
+      max-width: 40%;
+    }
+
+    @media screen and (max-width: $bp-tablet) {
+      max-width: 100%;
+    }
+
+    .img-container {
+      position: relative;
+      aspect-ratio: 366/406;
+      border: $border;
+
+      .arrow-container {
+        display: none;
+
+        img {
+          user-select: none;
+          max-width: 150px;
+        }
+
+        &.edit-mode {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          bottom: 3%;
+          gap: 0.5rem;
+
+          p {
+            align-self: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            max-width: 50%;
+            text-align: center;
+          }
+        }
+      }
+
+      .img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .agraphe {
+        user-select: none;
+        pointer-events: none;
+        position: absolute;
+        width: 191.923px;
+        right: -90.9px;
+        top: -11.7px;
+        transform: rotate(25deg);
+      }
+
+      &.edit-mode {
+        img:first-child {
+          opacity: 0.4;
+        }
+      }
+    }
+  }
+
+  .lebanc-infos {
+    width: 100%;
+
+    .categories {
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-top: 1.5rem;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+
+      .category {
+        border-bottom: 1px solid black;
+        width: 100%;
+      }
+
+      .flex {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        gap: 1rem;
+        border-bottom: $border;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        span {
+          font-weight: 500;
+          font-size: 1.2rem;
+          padding: 0.6rem 1rem;
+          border-radius: 999px;
+          background-color: $color-gray;
+          border: $border;
+
+          &.edit-mode {
+            color: $color-red;
+            cursor: pointer;
+            border-color: $color-red;
+            background-color: $color-white;
+          }
+        }
+      }
+    }
+  }
+
+  .edit-links-box-section {
+    display: none;
+
+    &.edit-links-mode {
+      display: block;
+    }
+
+    & {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: $color-gray-transparent;
+      z-index: 999;
+    }
+
+    .edit-links-box {
+      opacity: 1;
+      z-index: 99;
+      position: absolute;
+      width: 50%;
+      top: 50%;
+      left: 50%;
+      max-width: 650px;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      background-color: $color-white;
+      border-radius: $border-radius-md;
+      border: $border;
+
+      @media screen and (max-width: $bp-tablet) {
+        width: 90%;
+
+      }
+
+      .box-head {
+        border-bottom: $border;
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.6rem;
+        border-radius: $border-radius-md $border-radius-md 0 0;
+
+        div {
+          width: 0.8rem;
+          height: 0.8rem;
+          border: $border;
+          border-radius: 999px;
+
+          &:first-child {
+            background-color: $color-red;
+            cursor: pointer;
+          }
+        }
+
+      }
+
+      .box-content {
+        padding: 0 2.5rem 2.5rem 2.5rem;
+
+        .title-undertitle {
+          margin: 1.5rem 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        p {
+          font-size: 1rem;
+          color: $color-gray-darker;
+          font-weight: 500;
+        }
+
+        h3 {
+          font-size: 1.5rem;
+          font-weight: 500;
+        }
+
+        form {
+          div {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.1rem;
+            align-items: center;
+
+            @media screen and (max-width: $bp-phone) {
+              flex-direction: column;
+              align-items: flex-start;
+            }
+
+            img {
+              margin-right: 0.5rem;
+
+              @media screen and (max-width: $bp-phone) {
+                display: none;
+              }
+            }
+
+            label,
+            input {
+              font-size: 1.2rem;
+              font-weight: 400;
+            }
+
+            label {
+              min-width: fit-content;
+              margin-right: 0.2rem;
+              font-weight: 500;
+            }
+
+            input {
+              width: 100%;
+              border: $border;
+              border-radius: 2px;
+            }
+          }
+        }
+
+        .save {
+          display: flex;
+        }
+
+        .button-primary {
+          margin: 1.5rem auto 0 auto;
+        }
+      }
+
+    }
+  }
+}

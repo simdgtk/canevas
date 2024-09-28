@@ -1,0 +1,20 @@
+@import '../utils/utils.scss';
+
+html {
+  font-size: $font-size-base;
+  font-family: 'Futura LT', sans-serif;
+  font-weight: 400;
+  background-color: $color-background;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}

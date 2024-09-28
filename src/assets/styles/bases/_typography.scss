@@ -1,0 +1,70 @@
+h1 {
+  font-size: 4rem;
+  line-height: 95%;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 3.5rem;
+  line-height: 116%;
+}
+
+h3 {
+  font-size: 2.5rem;
+  line-height: 116%;
+}
+
+h4 {
+  font-size: 2rem;
+  line-height: 116%;
+}
+
+h5 {
+  font-size: 1.25rem;
+  line-height: 116%;
+}
+
+// fonts
+@font-face {
+  font-family: 'Futura LT';
+  src: url('/fonts/futura/FuturaLT.ttf') format('truetype');
+  font-display: swap;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Futura LT';
+  src: url('/fonts/futura/FuturaLT-Bold.ttf') format('truetype');
+  font-display: swap;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Futura LT';
+  src: url('/fonts/futura/FuturaLT-Light.ttf') format('truetype');
+  font-display: swap;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Futura LT';
+  src: url('/fonts/futura/FuturaLT-Oblique.ttf') format('truetype');
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'New Title';
+  src: url('/fonts/newtitle/NewTitle-Variable.woff2') format('woff2');
+  font-display: swap;
+  font-style: italic;
+}
+
+// @font-face {
+//   font-family: 'Raleway';
+//   src: url('/Raleway-Italic-VariableFont_wght.ttf') format('truetype');
+//   font-weight: 400 500 600 800;
+//   font-display: swap;
+//   font-style: italic;
+// }
