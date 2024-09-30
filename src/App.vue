@@ -1,23 +1,36 @@
 <script setup>
-// import HelloWorld from './components/HelloWorld.vue'
-// import TheWelcome from './components/TheWelcome.vue'
-// import SplashScreen from './components/SplashScreen.vue'
+import SplashScreen from './components/SplashScreen.vue';
 import TennisSection from './components/TennisSection.vue';
+import { ref, onMounted } from 'vue';
+import { gsap } from "gsap";
+
+const isLoaded = ref(false);
+const splash = ref(null);
+
+onMounted(() => {
+  console.log(splash.value);
+  if (splash.value) {
+    setTimeout(() => {
+      gsap.to(
+        splash.value.$el,
+        {
+          y: -800,
+          duration: 1.5,
+          ease: 'power3.inOut'
+        }
+      );
+    }, 3000);
+    setTimeout(() => {
+      isLoaded.value = true;
+    }, 3800);
+  }
+});
 </script>
 
 <template>
-  <!-- <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <SplashScreen ref="splash" v-show="!isLoaded" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main> -->
-  <TennisSection />
+  <TennisSection v-if="isLoaded" />
 </template>
 
 <style lang="scss">
