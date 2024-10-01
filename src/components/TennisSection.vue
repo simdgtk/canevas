@@ -6,159 +6,152 @@ import Matter from "matter-js";
 const container = ref(null);
 
 onMounted(() => {
-  // module aliases
-  var Engine = Matter.Engine,
-    Render = Matter.Render,
-    Runner = Matter.Runner,
-    Bodies = Matter.Bodies,
-    Composite = Matter.Composite,
-    Mouse = Matter.Mouse,
-    MouseConstraint = Matter.MouseConstraint;
+  setTimeout(() => {
+    // module aliases
+    var Engine = Matter.Engine,
+      Render = Matter.Render,
+      Runner = Matter.Runner,
+      Bodies = Matter.Bodies,
+      Composite = Matter.Composite,
+      Mouse = Matter.Mouse,
+      MouseConstraint = Matter.MouseConstraint;
 
-  // create an engine
-  var engine = Engine.create();
+    // create an engine
+    var engine = Engine.create();
 
-  // create a renderer
-  var render = Render.create({
-    element: container.value,
-    engine: engine,
-    options: {
-      width: window.innerWidth,
-      height: window.innerHeight,
-      wireframes: false,
-      background: 'transparent'
-    }
-  });
-
-  var ball = Bodies.circle(120, -100, 80, {
-    render: {
-      sprite: {
-        // 600 x 589, donc 600 * valeurYScale / 2 -1 (environ) pour le radius
-        texture: '/images/balle_detouree.webp',
-        xScale: 0.27,
-        yScale: 0.27,
-      },
-    }
-  });
-  ball.restitution = 0.7;
-
-  var ball2 = Bodies.circle(420, -100, 80, {
-    render: {
-      sprite: {
-        // 600 x 589, donc 600 * valeurYScale / 2 -1 (environ) pour le radius
-        texture: '/images/balle_detouree.webp',
-        xScale: 0.27,
-        yScale: 0.27,
-      },
-    }
-  });
-  ball2.restitution = 0.7;
-  let balls = [];
-  for (let i = 0; i < 25; i++) {
-    var ball3 = Bodies.circle(Math.random() * (window.innerWidth), Math.random() * (-2000), 80, {
-      angle: Math.random() * Math.PI * 2,
-      render: {
-        sprite: {
-          // 600 x 589, donc 600 * valeurYScale / 2 -1 (environ) pour le radius
-          texture: '/images/balle_detouree.webp',
-          xScale: 0.27,
-          yScale: 0.27,
-        },
+    // create a renderer
+    var render = Render.create({
+      element: container.value,
+      engine: engine,
+      options: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        wireframes: false,
+        background: 'transparent'
       }
     });
-    ball3.restitution = 0.7;
-    Matter.Body.rotate(ball3, Math.random() * 360);
-    balls.push(ball3);
-  }
 
-  var ground = Bodies.rectangle(
-    window.innerWidth / 2,
-    window.innerHeight + 500 / 2,
-    window.innerWidth,
-    500,
-    {
-      isStatic: true,
-      render: {
-        fillStyle: 'rgba(0, 0, 0, 0)',
-        strokeStyle: 'transparent',
-        lineWidth: 0
-      }
+    let balls = [];
+    let ballNumber = 22;
+    let ballSize = 80;
+    let xScale = 0.27;
+    let yScale = 0.27;
+    if (window.innerWidth < 1000) {
+      ballNumber = 15;
+      ballSize = (50);
+      xScale *= 0.625;
+      yScale *= 0.625;
     }
-  );
-  var wallLeft = Bodies.rectangle(
-    -250,
-    window.innerHeight / 2,
-    500,
-    window.innerHeight * 2,
-    {
-      isStatic: true,
-      render: {
-        fillStyle: 'rgba(0, 0, 0, 0)',
-        strokeStyle: 'transparent',
-        lineWidth: 0
-      }
+    for (let i = 0; i < ballNumber; i++) {
+      var ball3 = Bodies.circle(Math.random() * (window.innerWidth), Math.random() * (-2000), ballSize, {
+        angle: Math.random() * Math.PI * 2,
+        render: {
+          sprite: {
+            // 600 x 589, donc 600 * valeurYScale / 2 -1 (environ) pour le radius
+            texture: '/images/balle_detouree.webp',
+            xScale: xScale,
+            yScale: yScale,
+          },
+        }
+      });
+      ball3.restitution = 0.7;
+      Matter.Body.rotate(ball3, Math.random() * 360);
+      balls.push(ball3);
     }
-  );
-  var wallRight = Bodies.rectangle(
-    window.innerWidth + 250,
-    window.innerHeight / 2,
-    500,
-    window.innerHeight * 2,
-    {
-      isStatic: true,
-      render: {
-        fillStyle: 'rgba(0, 0, 0, 0)',
-        strokeStyle: 'transparent',
-        lineWidth: 0
+
+    var ground = Bodies.rectangle(
+      window.innerWidth / 2,
+      window.innerHeight + 500 / 2,
+      window.innerWidth,
+      500,
+      {
+        isStatic: true,
+        render: {
+          fillStyle: 'rgba(0, 0, 0, 0)',
+          strokeStyle: 'transparent',
+          lineWidth: 0
+        }
       }
-    }
-  );
-  var wallTop = Bodies.rectangle(
-    window.innerWidth / 2,
-    -250,
-    window.innerWidth * 2,
-    500,
-    {
-      isStatic: true,
-      render: {
-        fillStyle: 'rgba(0, 0, 0, 0)',
-        strokeStyle: 'transparent',
-        lineWidth: 0
+    );
+    var wallLeft = Bodies.rectangle(
+      -250,
+      window.innerHeight / 2,
+      500,
+      window.innerHeight * 2,
+      {
+        isStatic: true,
+        render: {
+          fillStyle: 'rgba(0, 0, 0, 0)',
+          strokeStyle: 'transparent',
+          lineWidth: 0
+        }
       }
-    }
-  );
-
-  Composite.add(engine.world, [ball, ball2, ground, wallLeft, wallRight, ...balls]);
-  setTimeout(() => {
-    Composite.add(engine.world, [wallTop]);
-  }, 3000);
-
-  // Add mouse control AFTER the render is created
-  var mouse = Mouse.create(render.canvas);
-  var mouseConstraint = MouseConstraint.create(engine, {
-    mouse: mouse,
-    constraint: {
-      stiffness: 0.2,
-      render: {
-        visible: false
+    );
+    var wallRight = Bodies.rectangle(
+      window.innerWidth + 250,
+      window.innerHeight / 2,
+      500,
+      window.innerHeight * 2,
+      {
+        isStatic: true,
+        render: {
+          fillStyle: 'rgba(0, 0, 0, 0)',
+          strokeStyle: 'transparent',
+          lineWidth: 0
+        }
       }
-    }
-  });
+    );
+    var wallTop = Bodies.rectangle(
+      window.innerWidth / 2,
+      -250,
+      window.innerWidth * 2,
+      500,
+      {
+        isStatic: true,
+        render: {
+          fillStyle: 'rgba(0, 0, 0, 0)',
+          strokeStyle: 'transparent',
+          lineWidth: 0
+        }
+      }
+    );
 
-  // add mouse control to the world
-  Composite.add(engine.world, mouseConstraint);
+    Composite.add(engine.world, [ground, wallLeft, wallRight, ...balls]);
+    setTimeout(() => {
+      Composite.add(engine.world, [wallTop]);
+    }, 3000);
 
-  // keep the mouse in sync with rendering
-  render.mouse = mouse;
+    // Add mouse control AFTER the render is created
+    var mouse = Mouse.create(render.canvas);
+    var mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: {
+          visible: false
+        }
+      }
+    });
+    // add mouse control to the world
+    Composite.add(engine.world, mouseConstraint);
 
-  // run the renderer
-  Render.run(render);
+    // garde le scroll
+    mouse.element.removeEventListener('wheel', mouse.mousewheel);
+    mouse.element.removeEventListener('DOMMouseScroll', mouse.mousewheel);
 
-  // create runner
-  var runner = Runner.create();
+    // keep the mouse in sync with rendering
+    render.mouse = mouse;
 
-  // run the engine
-  Runner.run(runner, engine);
+    // run the renderer
+    Render.run(render);
+
+    // create runner
+    var runner = Runner.create();
+
+    // run the engine
+    Runner.run(runner, engine);
+  }, 4000)
+
 });
 </script>
 
@@ -172,16 +165,19 @@ onMounted(() => {
 @import '../assets/styles/utils/utils.scss';
 
 .container-full {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
   background: url("/images/tennis_fond.webp") no-repeat center center / cover;
+  position: relative;
+  overflow-y: hidden;
 
   &::after {
     content: '';
     position: absolute;
     user-select: none;
     pointer-events: none;
+    scroll-behavior: smooth;
     top: 0;
     left: 0;
     width: 100%;
@@ -219,6 +215,10 @@ onMounted(() => {
     filter: grayscale(100%) sepia(31%) brightness(258%) saturate(226%) contrast(104%);
     -webkit-filter: grayscale(100%) sepia(31%) brightness(158%) saturate(226%) contrast(104%);
     -moz-filter: grayscale(100%) sepia(31%) brightness(158%) saturate(226%) contrast(304%);
+
+    @media screen and (max-width: 768px) {
+      font-size: 12rem;
+    }
   }
 }
 </style>
