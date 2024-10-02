@@ -2,7 +2,6 @@
 import SplashScreen from './components/SplashScreen.vue';
 import TennisSection from './components/TennisSection.vue';
 import { ref, onMounted } from 'vue';
-import { gsap } from "gsap";
 
 const isLoaded = ref(true);
 const splash = ref(null);

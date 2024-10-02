@@ -31,6 +31,11 @@ onMounted(() => {
   }).to('.link-container', {
     display: 'none',
     duration: 0,
+  }, '<').to('.background', {
+    y: '-100%',
+    ease: 'power3.inOut',
+    duration: 1,
+    stagger: 0.1,
   }, '<').to(".title", {
     color: 'transparent',
   }, '<').to('.h1-container', {
@@ -55,6 +60,9 @@ onMounted(() => {
     <div class="link-container">
       <a href="http://simondaguetkargl.fr/" target="_blank">.simondaguetkargl.fr</a>
     </div>
+    <div class="background"></div>
+    <div class="background"></div>
+    <div class="background"></div>
   </div>
 </template>
 
@@ -112,13 +120,15 @@ onMounted(() => {
     }
 
     &::after {
-      @keyframes path {
-        0% {
-          clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-        }
+      & {
+        @keyframes path {
+          0% {
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+          }
 
-        100% {
-          clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+          100% {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+          }
         }
       }
 
@@ -133,10 +143,10 @@ onMounted(() => {
       z-index: 999;
       top: 0;
       left: 0;
-      color: white;
-      mix-blend-mode: difference;
       z-index: 1;
       transition: clip-path 0.5s ease;
+      color: white;
+      mix-blend-mode: difference;
 
       @media screen and (max-width: 768px) {
         font-size: 50vw;
@@ -144,10 +154,6 @@ onMounted(() => {
     }
   }
 
-  .link-container {
-    height: 0;
-    overflow: hidden;
-  }
 
   a {
     font-family: 'Futura LT', sans-serif;
@@ -158,6 +164,31 @@ onMounted(() => {
 
   .link-container {
     pointer-events: all;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -11111;
+
+    &:nth-child(3) {
+      background-color: #fff;
+    }
+
+    &:nth-child(4) {
+      background-color: #ffffff92;
+      z-index: -111111;
+    }
+
+    &:nth-child(5) {
+      background-color: #ffffff1b;
+      z-index: -1111111;
+    }
   }
 }
 </style>

@@ -119,7 +119,7 @@ onMounted(() => {
     Composite.add(engine.world, [ground, wallLeft, wallRight, ...balls]);
     setTimeout(() => {
       Composite.add(engine.world, [wallTop]);
-    }, 3000);
+    }, 4000);
 
     // Add mouse control AFTER the render is created
     var mouse = Mouse.create(render.canvas);
@@ -163,6 +163,11 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @import '../assets/styles/utils/utils.scss';
+
+h2 {
+  color: #ffffff;
+  mix-blend-mode: difference;
+}
 
 .container-full {
   width: 100%;
@@ -215,6 +220,7 @@ onMounted(() => {
     filter: grayscale(100%) sepia(31%) brightness(258%) saturate(226%) contrast(104%);
     -webkit-filter: grayscale(100%) sepia(31%) brightness(158%) saturate(226%) contrast(104%);
     -moz-filter: grayscale(100%) sepia(31%) brightness(158%) saturate(226%) contrast(304%);
+
 
     @media screen and (max-width: 768px) {
       font-size: 12rem;

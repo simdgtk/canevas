@@ -31,7 +31,6 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
 <style lang="scss" scoped>
 @import '../assets/styles/utils/utils.scss';
 
@@ -53,8 +52,17 @@ onMounted(() => {
     transition: font-weight 0.5s ease;
     position: relative;
     color: $color-gray;
+    content: 'Canevas';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    color: $color-black;
+    transition: clip-path 0.5s ease;
 
     &::before {
+      animation: path 2.5s ease-in-out;
+
       @keyframes path {
         0% {
           clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
@@ -65,16 +73,6 @@ onMounted(() => {
         }
       }
 
-      content: 'Canevas';
-      position: absolute;
-      // clip-path: polygon(0 70%, 100% 70%, 100% 100%, 0 100%);
-      animation: path 2.5s ease-in-out;
-      z-index: 999;
-      top: 0;
-      left: 0;
-      color: $color-black;
-      z-index: 1;
-      transition: clip-path 0.5s ease;
     }
   }
 
