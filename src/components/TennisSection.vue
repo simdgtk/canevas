@@ -2,11 +2,11 @@
 import { onMounted, ref } from 'vue';
 import Matter from "matter-js";
 
-// Créer une référence en dehors de onMounted
 const container = ref(null);
 
 onMounted(() => {
   setTimeout(() => {
+
     // module aliases
     var Engine = Matter.Engine,
       Render = Matter.Render,
@@ -121,7 +121,6 @@ onMounted(() => {
       Composite.add(engine.world, [wallTop]);
     }, 4000);
 
-    // Add mouse control AFTER the render is created
     var mouse = Mouse.create(render.canvas);
     var mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
@@ -164,10 +163,6 @@ onMounted(() => {
 <style lang="scss" scoped>
 @import '../assets/styles/utils/utils.scss';
 
-h2 {
-  color: #ffffff;
-  mix-blend-mode: difference;
-}
 
 .container-full {
   width: 100%;
@@ -206,7 +201,7 @@ h2 {
     font-weight: bold;
     font-size: 21rem;
     color: #ffffff;
-    z-index: 9;
+    z-index: 2;
     opacity: 0.8;
     background-color: #ffffff;
     background-blend-mode: normal;

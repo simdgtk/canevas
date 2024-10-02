@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "gsap": "^3.12.5",
+    "lenis": "^1.1.13",
     "matter-js": "^0.20.0",
     "sass": "^1.78.0",
+    "three": "^0.169.0",
     "vue": "^3.4.29"
   },
   "devDependencies": {

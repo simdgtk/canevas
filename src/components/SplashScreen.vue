@@ -2,11 +2,12 @@
 import { gsap } from 'gsap'
 import { onMounted } from 'vue'
 onMounted(() => {
+
   function variableFont() {
     let tl = gsap.timeline()
     tl.to('.h1', {
       duration: 1.5, // Durée de l'animation en secondes
-      fontWeight: 100, // Passe de 200 (light) à 900 (bold)
+      fontWeight: 900, // Passe de 200 (light) à 900 (bold)
       ease: 'expo.out', // Type d'effet de transition
     })
     return tl
@@ -23,9 +24,13 @@ onMounted(() => {
   let tl2 = gsap.timeline({
     delay: 1.5,
   })
+  let scale = 0.2;
+  if (window.innerWidth < 768) {
+    scale = 0.4;
+  }
   tl2.to('.h1', {
     delay: 1.5,
-    scale: 0.2,
+    scale: scale,
     margin: 0,
     ease: "expo.inOut",
   }).to('.link-container', {
@@ -42,7 +47,7 @@ onMounted(() => {
     backgroundColor: 'transparent',
     duration: 0.2,
   }, '<').to('.h1', {
-    color: 'transparent',
+    display: 'none',
     delay: 0
   }, '<')
   gsap.to('.h1', {
@@ -108,7 +113,7 @@ onMounted(() => {
     user-select: none;
     z-index: -1;
     font-size: 30vw;
-    font-weight: 900;
+    font-weight: 100;
     overflow: hidden;
     font-family: 'New Title', sans-serif;
     transition: font-weight 0.5s ease;
@@ -116,7 +121,7 @@ onMounted(() => {
     color: $color-gray;
 
     @media screen and (max-width: 768px) {
-      font-size: 50vw;
+      font-size: 40vw;
     }
 
     &::after {
@@ -149,7 +154,7 @@ onMounted(() => {
       mix-blend-mode: difference;
 
       @media screen and (max-width: 768px) {
-        font-size: 50vw;
+        font-size: 40vw;
       }
     }
   }
