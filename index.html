@@ -4,18 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" href="/favicon.ico">
+   <link rel="preload" href="/fonts/newtitle/NewTitle-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Canevas</title>
 </head>
 
 <body>
+  <p class="charging">Chargement de la page...</p>
   <div id="app"></div>
   <style>
+    .charging {
+      display: block;
+      font-family: Arial, sans-serif;
+    }
+
     #app {
       overflow-y: hidden;
     }
   </style>
   <script type="module" src="/src/main.js"></script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelector('.charging').style.display = 'none';
+    });
+  </script>
 </body>
 
 </html>

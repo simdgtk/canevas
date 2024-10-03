@@ -8,33 +8,37 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from 'lenis';
 
+const isLoaded = ref(false);
 onMounted(() => {
-  gsap.registerPlugin(ScrollTrigger);
-  const lenis = new Lenis()
+  isLoaded.value = true;
 
-  lenis.on('scroll', ScrollTrigger.update)
+  gsap.registerPlugin(ScrollTrigger);
+  const lenis = new Lenis();
+
+  lenis.on('scroll', ScrollTrigger.update);
 
   gsap.ticker.add((time) => {
-    lenis.raf(time * 1000)
-  })
+    lenis.raf(time * 1000);
+  });
 
-  gsap.ticker.lagSmoothing(0)
+  gsap.ticker.lagSmoothing(0);
 });
 </script>
 
 <template>
-  <!-- v-show="!isLoaded" -->
   <SplashScreen />
-  <!-- <TennisSection v-if="isLoaded" /> -->
   <HeaderBanner />
   <TennisSection />
   <StatueSection />
-
-
 </template>
 
 <style lang="scss">
 @import '../src/assets/styles/main.scss';
+
+.test {
+  color: red;
+  z-index: 9999999;
+}
 
 html.lenis,
 html.lenis body {

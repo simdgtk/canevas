@@ -6,6 +6,7 @@ onMounted(() => {
   function variableFont() {
     let tl = gsap.timeline()
     tl.to('.h1', {
+      delay: 1.5,
       duration: 1.5, // Durée de l'animation en secondes
       fontWeight: 900, // Passe de 200 (light) à 900 (bold)
       ease: 'expo.out', // Type d'effet de transition
@@ -22,7 +23,7 @@ onMounted(() => {
     ease: 'power3.inOut'
   })
   let tl2 = gsap.timeline({
-    delay: 1.5,
+    delay: 3,
   })
   let scale = 0.2;
   if (window.innerWidth < 768) {
