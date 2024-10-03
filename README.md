@@ -1,35 +1,3 @@
 # canevas
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+Site où j'expérimente avec des librairies et des effets pour le web. Développé avec [Vue.js](https://vuejs.org/), et utilisant pour l'instant [Matter.js](https://brm.io/matter-js/), [Three.js](https://threejs.org/), [Lenis](https://lenis.darkroom.engineering/).
