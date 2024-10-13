@@ -3,6 +3,7 @@ import SplashScreen from './components/SplashScreen.vue';
 import TennisSection from './components/TennisSection.vue';
 import StatueSection from './components/StatueSection.vue';
 import HeaderBanner from './components/HeaderBanner.vue';
+import TagSection from './components/TagSection.vue';
 import { ref, onMounted } from 'vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -26,9 +27,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <SplashScreen />
   <HeaderBanner />
+  <SplashScreen />
   <TennisSection />
+  <TagSection />
   <StatueSection />
 </template>
 

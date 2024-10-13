@@ -64,7 +64,7 @@ onMounted(() => {
       <h1 class="h1 title">Canevas</h1>
     </div>
     <div class="link-container">
-      <a href="http://simondaguetkargl.fr/" target="_blank">.simondaguetkargl.fr</a>
+      <!-- <a href="http://simondaguetkargl.fr/" target="_blank">.simondaguetkargl.fr</a>-->
     </div>
     <div class="background"></div>
     <div class="background"></div>
