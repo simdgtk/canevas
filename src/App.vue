@@ -31,7 +31,7 @@ onMounted(() => {
   <SplashScreen />
   <TennisSection />
   <TagSection />
-  <StatueSection />
+  <!--<StatueSection />-->
 </template>
 
 <style lang="scss">

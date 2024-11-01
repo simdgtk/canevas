@@ -166,7 +166,7 @@ onMounted(() => {
 
 .container-full {
   width: 100%;
-  height: 100vh;
+  height: 101vh;
   overflow: hidden;
   background: url("/images/tennis_fond.webp") no-repeat center center / cover;
   position: relative;

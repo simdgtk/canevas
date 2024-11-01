@@ -1,42 +1,53 @@
 <script setup>
 import { onMounted, ref } from 'vue';
+import { gsap } from 'gsap';
+import Draggable from 'gsap/Draggable';
+import Matter from "matter-js";
 
 const canvas = ref(null);
+const section = ref(null);
+const color = ref("#FFF");
+const isDrawing = ref(false);
+
+// const targetIsVisible = useElementVisibility(section);
+// onMounted(() => {
+//   watch(targetIsVisible.value, () => {
+//     canvas.value.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+//   });
+// });
+
 let dataURL = ref(null);
-let painting = false;
 onMounted(() => {
   canvas.value.width = window.innerWidth;
-  canvas.value.height = window.innerHeight * 0.98;
+  canvas.value.height = window.innerHeight;
   const ctx = canvas.value.getContext("2d");
   if (localStorage.getItem('dataURL')) {
-    var image = new Image();
-    image.onload = function () {
-      ctx.drawImage(image, 0, 0);
-    }
+    const image = new Image();
+    image.onload = () => ctx.drawImage(image, 0, 0);
     image.src = localStorage.getItem('dataURL');
   }
-})
-
+});
 
 const startPosition = (e) => {
-  painting = true;
   const ctx = canvas.value.getContext("2d");
   ctx.beginPath();
+  ctx.fillStyle = color.value;
+  ctx.globalAlpha = 0.5;
   ctx.moveTo(e.clientX, e.clientY);
 };
 
 const finishedPosition = () => {
-  painting = false;
   dataURL.value = canvas.value.toDataURL();
   localStorage.setItem('dataURL', dataURL.value);
+  const ctx = canvas.value.getContext("2d");
+  ctx.closePath();
 };
 
 const draw = (e) => {
-  if (!painting) return;
   const ctx = canvas.value.getContext("2d");
   ctx.lineTo(e.clientX, e.clientY);
-  ctx.strokeStyle = "#af131380";
-  ctx.lineWidth = 20;
+  ctx.strokeStyle = color.value;
+  ctx.lineWidth = 25;
   ctx.lineCap = "round";
   ctx.stroke();
 };
@@ -46,19 +57,108 @@ onMounted(() => {
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.value.width, canvas.value.height);
 });
+
+// Matter.js setup
+const matter = ref(null);
+onMounted(() => {
+  const { Engine, Render, Runner, Bodies, Composite, Mouse, MouseConstraint, Constraint } = Matter;
+
+  const engine = Engine.create();
+  engine.world.gravity.y = -1;
+
+  const render = Render.create({
+    element: matter.value,
+    engine,
+    options: { width: window.innerWidth, height: window.innerHeight, wireframes: false, background: 'transparent' }
+  });
+
+  const boxA = Bodies.rectangle(window.innerWidth - 0.05 * window.innerWidth, window.innerHeight - 0.3 * window.innerHeight, 90, 153, {
+    render: { sprite: { texture: '/images/hand.webp', xScale: 0.235, yScale: 0.235 } }
+  });
+
+  const constraint = Constraint.create({
+    pointA: { x: window.innerWidth - 0.05 * window.innerWidth, y: window.innerHeight + 0.1 * window.innerHeight },
+    bodyB: boxA,
+    pointB: { x: -10, y: 70 },
+    stiffness: 0.003,
+    damping: 2,
+    render: { lineWidth: 30, strokeStyle: '#223cff', type: 'line' }
+  });
+
+  Composite.add(engine.world, [boxA, constraint]);
+
+  const mouse = Mouse.create(render.canvas);
+  const mouseConstraint = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.2, render: { visible: false } } });
+  Composite.add(engine.world, mouseConstraint);
+
+  Matter.Events.on(mouseConstraint, "mousedown", (event) => {
+    if (mouseConstraint.body === boxA) {
+      color.value = "#FFF";
+      startPosition({ clientX: event.mouse.position.x, clientY: event.mouse.position.y });
+    } else {
+      color.value = "#4a6b9e80";
+      startPosition({ clientX: event.mouse.position.x, clientY: event.mouse.position.y });
+      isDrawing.value = true;
+    }
+  });
+
+  Matter.Events.on(mouseConstraint, 'mousemove', (event) => {
+    if (mouseConstraint.body === boxA) {
+      draw({ clientX: event.mouse.position.x, clientY: event.mouse.position.y });
+    } else if (isDrawing.value) {
+      color.value = "#4a6b9e80";
+      draw({ clientX: event.mouse.position.x, clientY: event.mouse.position.y });
+    }
+  });
+
+  Matter.Events.on(mouseConstraint, 'mouseup', () => {
+    isDrawing.value = false;
+    finishedPosition();
+  });
+
+  Render.run(render);
+  Runner.run(Runner.create(), engine);
+
+  gsap.registerPlugin(Draggable);
+  Draggable.create("#sprayBlue", {
+    bounds: canvas.value,
+    onDragStart: startPosition,
+    onClick: (e) => draw(e),
+    onDrag: (e) => draw(e),
+    onDragEnd: finishedPosition,
+    inertia: true
+  });
+});
 </script>
 
 <template>
-  <div class="section">
-    <div class="container-full container-image"></div>
-    <canvas class="canvas" ref="canvas" @mousedown="startPosition" @mouseup="finishedPosition" @mousemove="draw">
-    </canvas>
+  <div id="main">
+    <div class="section" ref="section">
+      <div class="container-full container-image"></div>
+      <canvas class="canvas" ref="canvas" @mousedown="startPosition" @mouseup="finishedPosition"
+        @mousemove="draw"></canvas>
+    </div>
+    <div id="matter-js" ref="matter"></div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @import '../assets/styles/utils/utils.scss';
-.section {position: relative;}
+
+#main {
+  position: relative;
+  overflow: hidden;
+}
+
+#matter-js {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 101vh;
+}
+
 .container-image {
   background-image: url('/images/wall.webp');
   background-repeat: no-repeat;
@@ -71,12 +171,6 @@ onMounted(() => {
   }
 }
 
-canvas {
-  width: 100vw;
-  height: 98vh;
-  overflow: hidden;
-}
-
 .canvas {
   position: absolute;
   top: 0;
@@ -84,7 +178,6 @@ canvas {
   user-select: all;
   pointer-events: all;
   z-index: 2;
-  background-color: blue;
   mix-blend-mode: multiply;
   filter: blur(6px) contrast(120%);
   clip-path: polygon(0% 22%, 43% 22%, 100% 24%, 100% 100%, 0% 100%);
@@ -93,7 +186,6 @@ canvas {
   @media screen and (min-width: 1920px) {
     height: 100vh;
     width: 100%;
-    background-size: cover;
   }
 }
 </style>
