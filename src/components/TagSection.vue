@@ -6,7 +6,7 @@ import Matter from "matter-js";
 
 const canvas = ref(null);
 const section = ref(null);
-const color = ref("#FFF");
+const color = ref("#4a6b9e80");
 const isDrawing = ref(false);
 
 // const targetIsVisible = useElementVisibility(section);
@@ -96,7 +96,6 @@ onMounted(() => {
       color.value = "#FFF";
       startPosition({ clientX: event.mouse.position.x, clientY: event.mouse.position.y });
     } else {
-      color.value = "#4a6b9e80";
       startPosition({ clientX: event.mouse.position.x, clientY: event.mouse.position.y });
       isDrawing.value = true;
     }
@@ -106,7 +105,6 @@ onMounted(() => {
     if (mouseConstraint.body === boxA) {
       draw({ clientX: event.mouse.position.x, clientY: event.mouse.position.y });
     } else if (isDrawing.value) {
-      color.value = "#4a6b9e80";
       draw({ clientX: event.mouse.position.x, clientY: event.mouse.position.y });
     }
   });
@@ -119,16 +117,19 @@ onMounted(() => {
   Render.run(render);
   Runner.run(Runner.create(), engine);
 
-  gsap.registerPlugin(Draggable);
-  Draggable.create("#sprayBlue", {
-    bounds: canvas.value,
-    onDragStart: startPosition,
-    onClick: (e) => draw(e),
-    onDrag: (e) => draw(e),
-    onDragEnd: finishedPosition,
-    inertia: true
-  });
+  // gsap.registerPlugin(Draggable);
+  // Draggable.create("#sprayBlue", {
+  //   bounds: canvas.value,
+  //   onDragStart: () => startPosition(),
+  //   onClick: (e) => draw(e),
+  //   onDrag: (e) => draw(e),
+  //   onDragEnd: finishedPosition,
+  // });
 });
+
+const updateColor = (newColor) => {
+  color.value = newColor;
+};
 </script>
 
 <template>
@@ -137,6 +138,16 @@ onMounted(() => {
       <div class="container-full container-image"></div>
       <canvas class="canvas" ref="canvas" @mousedown="startPosition" @mouseup="finishedPosition"
         @mousemove="draw"></canvas>
+      <div class="sprays">
+        <div id="sprayBlue" class="spray" @click="updateColor('#4a6b9e80'), toogleClass()">
+          <img src="/images/spray_bleu.webp" alt="spray-blue" />
+        </div>
+        <div id="sprayRed" class="spray" @click="updateColor('#9e4a6b80'), toogleClass()">
+          <img src="/images/spray_rouge.webp" alt="spray-red" />
+        </div>
+      </div>
+
+
     </div>
     <div id="matter-js" ref="matter"></div>
   </div>
@@ -186,6 +197,36 @@ onMounted(() => {
   @media screen and (min-width: 1920px) {
     height: 100vh;
     width: 100%;
+  }
+}
+
+.sprays {
+  padding-left: 2rem;
+  z-index: 3;
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+
+  .spray {
+    transition: transform 0.2s ease-in-out;
+    transform-origin: bottom center;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+
+    &.active {
+      transform: scale(1.1);
+    }
+  }
+
+  img {
+    width: 3.5vw;
+    height: auto;
   }
 }
 </style>
