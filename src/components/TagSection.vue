@@ -120,10 +120,6 @@ onMounted(() => {
   // gsap.registerPlugin(Draggable);
   // Draggable.create("#sprayBlue", {
   //   bounds: canvas.value,
-  //   onDragStart: () => startPosition(),
-  //   onClick: (e) => draw(e),
-  //   onDrag: (e) => draw(e),
-  //   onDragEnd: finishedPosition,
   // });
 });
 
@@ -145,6 +141,8 @@ const updateColor = (newColor) => {
         <div id="sprayRed" class="spray" @click="updateColor('#9e4a6b80'), toogleClass()">
           <img src="/images/spray_rouge.webp" alt="spray-red" />
         </div>
+      </div>
+      <div class="" id="question">
       </div>
 
 
@@ -201,6 +199,7 @@ const updateColor = (newColor) => {
 }
 
 .sprays {
+  user-select: none;
   padding-left: 2rem;
   z-index: 3;
   display: flex;
@@ -227,6 +226,73 @@ const updateColor = (newColor) => {
   img {
     width: 3.5vw;
     height: auto;
+  }
+}
+
+#question {
+  padding: 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  border-radius: 999px;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  color: black;
+  background-color: white;
+  margin: 1rem;
+  opacity: 0.6;
+  clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+  transition: all 0.2s ease-in-out;
+
+  &::before {
+    content: '?';
+    font-size: 2rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &::after {
+    content: '';
+    font-size: 1rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    transition: clip-path 0.4s ease-in-out, opacity 0.4s ease-out;
+  }
+
+  &:hover {
+    opacity: 0.9;
+    padding-left: 20rem;
+
+    &::before {
+      opacity: 0;
+    }
+
+    &::after {
+      content: 'Choississez votre couleur avec les bombes, dessinez et effacez en glissant la main';
+      transform: translateX(-9.2rem);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      opacity: 1;
+    }
   }
 }
 </style>
